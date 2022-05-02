@@ -7,7 +7,6 @@ router.get('/getRulers', (req, res) => {
       res.json(err);
     } else {
       res.json(result);
-      console.log(result);
     }
   });
 });

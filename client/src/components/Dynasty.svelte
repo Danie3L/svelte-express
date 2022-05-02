@@ -1,17 +1,12 @@
 <script>
   import Axios from "axios";
   export let id,name,_id;
-  const deleteCapital = (id) => {
-    Axios.delete(`http://localhost:8080/deleteCapital/${id}`).then(() => {
-    console.log('ok')
-  })
-  }
 </script>
 
 <article>
   <small>id: {id}</small>
   <h1>name: {name}</h1>
-  <button on:click={() => deleteCapital(_id)}>delete</button>
+  <!-- <button on:click={() => deleteCapital(_id)}>delete</button> -->
 </article>
 
 <style>

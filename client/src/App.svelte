@@ -1,47 +1,38 @@
 <script>
   import Axios from 'axios';
-  import Countries from './components/Countries.svelte';
-  import Capitals from './components/Capitals.svelte';
+  import AddRuler from './components/AddRuler.svelte';
+  import Dynasties from './components/Dynasties.svelte';
+  import Filter from './components/Filter.svelte';
+  import Rulers from './components/Rulers.svelte';
+
   let data = [];
+  let isOpen = false;
   const getData = () => {
+  if(data.length === 0) {
     Axios.get('http://localhost:8080/getAll').then((res) => {
       data = res.data;
+      console.log(data)
       data.forEach((el) => {
         console.log(el)
       })
     })
   }
-const deleteHandler = (capitalID,countryID) => {
-  console.log(capitalID,countryID)
-  Axios.delete(`http://localhost:8080/deleteCapital/${capitalID}`).then(() => {
-    console.log('ok')
-  })
-  Axios.delete(`http://localhost:8080/deleteCountry/${countryID}`).then(() => {
-    console.log('ok')
-  })
-}
+  isOpen = !isOpen;
+  }
+
 </script>
 
 <main>
   <button on:click={getData}>get all</button>
- <Countries/>
- <Capitals/>
- {#if data.length>0}
+ <Dynasties/>
+ {#if data.length>0 && isOpen}
  {#each data as obj }
-    <div class='box'>
-      <div>{obj.id}</div>
-      <div>{obj.name}</div>
-      <div>{obj.key[0].id}</div>
-      <div>{obj.key[0].capital_id}</div>
-      <div>{obj.key[0].name}</div>
-      <div>{obj.key[0].population}</div>
-      <div>{obj.key[0].president}</div>
-      <button on:click={() => deleteHandler(obj._id,obj.key[0]._id)}>delete</button>
-    </div>
+  <Rulers id={obj.id} name={obj.name} data={obj.key}/>
+  
  {/each}
  {/if}
-   
-
+   <Filter/>
+  <AddRuler/>
 </main>
 
 <style>
